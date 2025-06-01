@@ -2,9 +2,14 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+
   <title>pc specs interaction</title>
   <style>
+    html, body {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    }
     body {
       background-color: #1e1e1e;
       color: #f0f0f0;
@@ -279,43 +284,64 @@
       `;
     }
 
+    let waitingForResetClick = false;
+    let btnLocked = false;
+
     function handleJustClick() {
-      const now = Date.now();
+    if (btnLocked) return;
 
-      if (!clickStartTime) {
-        clickStartTime = now;
-        prevClickTime = now;
-        clickCount = 1;
+    const now = Date.now();
 
-        clickMonitor = setInterval(() => {
-          const timeDiff = Date.now() - prevClickTime;
-          if (timeDiff > 700 && clickCount > 10) {
-            document.getElementById("response").innerHTML = `
-              ${text[currentLang].failCount(clickCount)}
-              <br><img src="/static/pc/okak.jpg" alt="okak cat">
-            `;
-            
-            clearInterval(clickMonitor);
-            setTimeout(() => {
-              resetClicks();
-              document.getElementById("response").innerHTML = text[currentLang].justClick1;
-            }, 1700);
-            return;
-          }
-        }, 100);
-
+    if (waitingForResetClick) {
+        waitingForResetClick = false;
+        resetClicks();
         document.getElementById("response").innerHTML = text[currentLang].justClick1;
         return;
-      }
-
-      const timeSinceLastClick = now - prevClickTime;
-      prevClickTime = now;
-      clickCount++;
-
-      if (clickCount === 2) {
-        document.getElementById("response").innerHTML = text[currentLang].justClick2;
-      }
     }
+
+    if (!clickStartTime) {
+        clickStartTime = now;
+        prevClickTime = now;
+        clickCount = 0;
+
+        clickMonitor = setInterval(() => {
+        const timeDiff = Date.now() - prevClickTime;
+        if (timeDiff > 600 && clickCount > 10) {
+            document.getElementById("response").innerHTML = `
+            ${text[currentLang].failCount(clickCount)}
+            <br><img src="/static/pc/okak.jpg" alt="okak cat">
+            `;
+            clearInterval(clickMonitor);
+
+            // 🔒 Блокировка кнопки
+            const btn = document.getElementById("btnClick");
+            btn.disabled = true;
+            btn.style.opacity = "0.5";
+            btn.style.pointerEvents = "none";
+            btnLocked = true;
+
+            // ⏱️ Через 2 секунды разблокировка и разрешение на сброс
+            setTimeout(() => {
+            btn.disabled = false;
+            btn.style.opacity = "1";
+            btn.style.pointerEvents = "auto";
+            btnLocked = false;
+            waitingForResetClick = true;
+            }, 2000);
+        }
+        }, 100);
+    }
+
+  clickCount++;
+  prevClickTime = now;
+
+  if (clickCount === 1) {
+    document.getElementById("response").innerHTML = text[currentLang].justClick1;
+  } else if (clickCount === 2) {
+    document.getElementById("response").innerHTML = text[currentLang].justClick2;
+  }
+}
+
 
     function resetClicks() {
       clickCount = 0;
