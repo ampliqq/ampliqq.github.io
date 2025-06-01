@@ -289,13 +289,18 @@
 
         clickMonitor = setInterval(() => {
           const timeDiff = Date.now() - prevClickTime;
-          if (timeDiff > 730 && clickCount > 10) {
+          if (timeDiff > 700 && clickCount > 10) {
             document.getElementById("response").innerHTML = `
               ${text[currentLang].failCount(clickCount)}
               <br><img src="/static/pc/okak.jpg" alt="okak cat">
             `;
+            
             clearInterval(clickMonitor);
-            resetClicks();
+            setTimeout(() => {
+              resetClicks();
+              document.getElementById("response").innerHTML = text[currentLang].justClick1;
+            }, 1700);
+            return;
           }
         }, 100);
 
