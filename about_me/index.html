@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Обо мне</title>
+  <style>
+    body {
+      margin: 5%;
+      padding: 4%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .about {
+      max-width: 700px;
+      margin: 60px auto;
+      padding: 0 20px 30px;
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      position: relative;
+    }
+
+    .about h1 {
+      font-size: 2em;
+      margin-bottom: 20px;
+      color: #111;
+    }
+
+    .about p {
+      margin-bottom: 16px;
+      font-size: 1.1em;
+    }
+
+    .lang-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.95em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .lang-flag {
+      width: 24px;
+      height: 16px;
+      display: inline-block;
+    }
+
+    .lang-flag svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    @media (max-width: 600px) {
+      .about {
+        margin: 30px 10px;
+        padding: 20px;
+      }
+
+      .about h1 {
+        font-size: 1.5em;
+      }
+
+      .about p {
+        font-size: 1em;
+      }
+
+      .lang-toggle {
+        top: 10px;
+        right: 10px;
+        padding: 6px 10px;
+      }
+    }
+    .lang-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.lang-toggle:hover {
+  background-color: #0056d2;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
+}
+  </style>
+</head>
+<body>
+  <section class="about">
+    <button class="lang-toggle" onclick="toggleLanguage()">
+      <span class="lang-flag" id="flag-icon">
+        <!-- Russian Flag SVG -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480">
+          <path fill="#fff" d="M0 0h640v160H0z"/>
+          <path fill="#0039a6" d="M0 160h640v160H0z"/>
+          <path fill="#d52b1e" d="M0 320h640v160H0z"/>
+        </svg>
+      </span>
+      <span id="lang-label">EN</span>
+    </button>
+
+    <h1 id="name">Привет! Я - Саша 👋</h1>
+    <p id="p1">Я работаю программистом уже 4 года - успел поработать и с бэкендом на embedded-системах (Python, Rust, C, C++), и с фронтом (React, TypeScript), и даже много-немного DevOps'ом/MlOps'ом.</p>
+    <p id="p2">Сейчас живу и работаю в ОАЭ - занимаюсь разработкой систем фото- и видеофиксации, дронов.</p>
+    <p id="p3">Помимо кода увлекаюсь философией - люблю копаться в смыслах, наблюдать за людьми и их действиями. А ещё я фотографирую - выкладываю фотки в свой канал.</p>
+    <p id="p4">Интересуюсь инвестициями, криптовалютами, политикой и всем, что происходит в мире вокруг нас.</p>
+    <p id="p5">Открыт для общения, новых проектов и интересных тем - пиши, если хочешь пообщаться 🙌</p>
+  </section>
+
+  <script>
+    const content = {
+      ru: {
+        name: "Привет! Я - Саша 👋",
+        p1: "Я работаю программистом уже 4 года - успел поработать и с бэкендом на embedded-системах (Python, Rust, C, C++), и с фронтом (React, TypeScript), и даже много-немного DevOps'ом/MlOps'ом.",
+        p2: "Сейчас живу и работаю в ОАЭ - занимаюсь разработкой систем фото- и видеофиксации, дронов.",
+        p3: "Помимо кода увлекаюсь философией - люблю копаться в смыслах, наблюдать за людьми и их действиями. А ещё я фотографирую - выкладываю фотки в свой канал.",
+        p4: "Интересуюсь инвестициями, криптовалютами, политикой и всем, что происходит в мире вокруг нас.",
+        p5: "Открыт для общения, новых проектов и интересных тем - пиши, если хочешь пообщаться 🙌",
+        label: "switch to US",
+        flag: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480">
+                 <path fill="#bd3d44" d="M0 0h640v480H0"/>
+                 <path stroke="#fff" stroke-width="37" d="M0 55.3h640M0 129h640M0 203h640M0 277h640M0 351h640M0 425h640"/>
+                 <path fill="#192f5d" d="M0 0h364.8v258.5H0"/>
+               </svg>`
+      },
+      en: {
+        name: "Hi! I'm Alex 👋",
+        p1: "I've been working as a programmer for 4 years - I've done backend on embedded systems (Python, Rust, C, C++), frontend with React and TypeScript, and even a bit of DevOps/MlOps.",
+        p2: "Currently living and working in the UAE - developing photo and video capture systems, drones and related stuff.",
+        p3: "Outside of coding, I'm into philosophy - I enjoy exploring meaning, observing people and their actions. I also love photography - sharing my shots on my channel.",
+        p4: "I'm interested in investments, crypto, politics, and everything going on in the world around us.",
+        p5: "Open to new projects, interesting conversations and collaborations - feel free to reach out 🙌",
+        label: "перевести",
+        flag: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480">
+                 <path fill="#fff" d="M0 0h640v160H0z"/>
+                 <path fill="#0039a6" d="M0 160h640v160H0z"/>
+                 <path fill="#d52b1e" d="M0 320h640v160H0z"/>
+               </svg>`
+      }
+    };
+
+    let currentLang = 'ru';
+
+    function toggleLanguage() {
+      currentLang = currentLang === 'ru' ? 'en' : 'ru';
+      const langData = content[currentLang];
+
+      document.getElementById('name').textContent = langData.name;
+      document.getElementById('p1').textContent = langData.p1;
+      document.getElementById('p2').textContent = langData.p2;
+      document.getElementById('p3').textContent = langData.p3;
+      document.getElementById('p4').textContent = langData.p4;
+      document.getElementById('p5').textContent = langData.p5;
+
+      document.getElementById('lang-label').textContent = langData.label;
+      document.getElementById('flag-icon').innerHTML = langData.flag;
+    }
+  </script>
+</body>
+</html>

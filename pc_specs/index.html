@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pc specs interaction</title>
+  <style>
+    body {
+      background-color: #1e1e1e;
+      color: #f0f0f0;
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      text-align: center;
+      text-transform: lowercase;
+    }
+
+    .header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    h1 {
+      color: #e74c3c;
+      font-size: 2em;
+      margin: 0;
+    }
+
+    .lang-switch {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: #f0f0f0;
+      font-size: 1em;
+      text-transform: lowercase;
+    }
+
+    .lang-switch svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      margin: 10px;
+      background-color: #2c3e50;
+      border: 1px solid #7f8c8d;
+      color: #ecf0f1;
+      font-size: 1em;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+      text-transform: lowercase;
+    }
+
+    .btn:hover {
+      background-color: #34495e;
+    }
+
+    .response {
+      margin-top: 30px;
+      font-size: 1.1em;
+      color: #f39c12;
+      white-space: pre-wrap;
+    }
+
+    img {
+      margin-top: 20px;
+      max-width: 300px;
+      border: 2px solid #7f8c8d;
+      border-radius: 4px;
+    }
+    .lang-switch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  border: 2px solid #f39c12;
+  background-color: #2c3e50;
+  color: #f1f1f1;
+  font-size: 1em;
+  padding: 8px 14px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(243, 156, 18, 0.4);
+  transition: all 0.3s ease;
+}
+
+.lang-switch:hover {
+  background-color: #34495e;
+  box-shadow: 0 0 14px rgba(243, 156, 18, 0.8);
+  transform: scale(1.03);
+}
+
+.lang-switch svg {
+  width: 24px;
+  height: 24px;
+  border-radius: 3px;
+  border: 1px solid #aaa;
+}
+/* Общая базовая кнопка */
+.btn {
+  padding: 10px 20px;
+  margin: 10px;
+  background-color: #2c3e50;
+  border: 1px solid #7f8c8d;
+  color: #ecf0f1;
+  font-size: 1em;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+  text-transform: lowercase;
+}
+
+/* Подсветка для каждой */
+#btnSpecs {
+  border: 2px solid #2ecc71;
+  box-shadow: 0 0 10px rgba(46, 204, 113, 0.4);
+}
+#btnSpecs:hover {
+  background-color: #34495e;
+  box-shadow: 0 0 14px rgba(46, 204, 113, 0.8);
+  transform: scale(1.03);
+}
+
+#btnClick {
+  border: 2px solid #e74c3c;
+  box-shadow: 0 0 10px rgba(231, 76, 60, 0.4);
+}
+#btnClick:hover {
+  background-color: #34495e;
+  box-shadow: 0 0 14px rgba(231, 76, 60, 0.8);
+  transform: scale(1.03);
+}
+
+.lang-switch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  border: 2px solid #f39c12;
+  background-color: #2c3e50;
+  color: #f1f1f1;
+  font-size: 1em;
+  padding: 8px 14px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(243, 156, 18, 0.4);
+  transition: all 0.3s ease;
+}
+
+.lang-switch:hover {
+  background-color: #34495e;
+  box-shadow: 0 0 14px rgba(243, 156, 18, 0.8);
+  transform: scale(1.03);
+}
+
+.lang-switch svg {
+  width: 24px;
+  height: 24px;
+  border-radius: 40%;
+  border: 0px solid #aaa;
+}
+
+
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1 id="title">зачем ты сюда зашёл?</h1>
+    <button class="lang-switch" onclick="toggleLanguage()" id="btnLang">
+      <span id="langText">to EN</span>
+      <span id="langFlag">
+        <!-- RU Flag -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480">
+          <g fill-rule="evenodd">
+            <path fill="#fff" d="M0 0h640v160H0z"/>
+            <path fill="#0039a6" d="M0 160h640v160H0z"/>
+            <path fill="#d52b1e" d="M0 320h640v160H0z"/>
+          </g>
+        </svg>
+      </span>
+    </button>
+  </div>
+
+  <button class="btn" onclick="stepTwo()" id="btnSpecs">узнать характеристики твоего пк</button>
+  <button class="btn" onclick="handleJustClick()" id="btnClick">просто кликнул по приколу</button>
+
+  <div id="response" class="response"></div>
+
+  <script>
+    let clickCount = 0;
+    let clickStartTime = null;
+    let prevClickTime = null;
+    let clickMonitor = null;
+    let currentLang = 'ru';
+
+    const text = {
+      ru: {
+        title: 'зачем ты сюда зашёл?',
+        specsBtn: 'узнать характеристики твоего пк',
+        clickBtn: 'просто кликнул по приколу',
+        langBtn: 'to EN',
+        whySpecs: 'зачем тебе характеристики моего пк?',
+        stream: 'хочу стримить',
+        games: 'хочу играть в такие же игры',
+        searchFail: 'в гугле забанили? в яндексе — врятли. чатгпт для кого придумали?',
+        justClick1: 'а, понятно… просто кликнул.<br>ну, кликни ещё. может, что-то случится. или нет.',
+        justClick2: 'кликни 10 раз.',
+        failCount: (count) => `пора в школу — научиться считать до 10<br>в это время я насчитал ${count} кликов`,
+        flag: `
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480">
+                 <path fill="#bd3d44" d="M0 0h640v480H0"/>
+                 <path stroke="#fff" stroke-width="37" d="M0 55.3h640M0 129h640M0 203h640M0 277h640M0 351h640M0 425h640"/>
+                 <path fill="#192f5d" d="M0 0h364.8v258.5H0"/>
+               </svg>`
+      },
+      en: {
+        title: 'why did you come here?',
+        specsBtn: 'check your pc specs',
+        clickBtn: 'just clicked for fun',
+        langBtn: 'перевести',
+        whySpecs: 'why do you need my pc specs?',
+        stream: 'i want to stream',
+        games: 'i want to play the same games',
+        searchFail: 'no access to google? yandex maybe? that\'s what chatgpt is for.',
+        justClick1: 'ah, just clicked...<br>go ahead, click again. maybe something will happen.',
+        justClick2: 'click 10 times.',
+        failCount: (count) => `time for school — learn to count to 10<br>meanwhile i counted ${count} clicks`,
+        flag: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480">
+                 <path fill="#fff" d="M0 0h640v160H0z"/>
+                 <path fill="#0039a6" d="M0 160h640v160H0z"/>
+                 <path fill="#d52b1e" d="M0 320h640v160H0z"/>
+               </svg>`
+      }
+    };
+
+    function translateUI() {
+      document.getElementById('title').innerText = text[currentLang].title;
+      document.getElementById('btnSpecs').innerText = text[currentLang].specsBtn;
+      document.getElementById('btnClick').innerText = text[currentLang].clickBtn;
+      document.getElementById('langText').innerText = text[currentLang].langBtn;
+      document.getElementById('langFlag').innerHTML = text[currentLang].flag;
+    }
+
+    function toggleLanguage() {
+      currentLang = currentLang === 'ru' ? 'en' : 'ru';
+      translateUI();
+      document.getElementById('response').innerHTML = '';
+    }
+
+    function stepTwo() {
+      clearInterval(clickMonitor);
+      resetClicks();
+
+      document.getElementById('response').innerHTML = `
+        ${text[currentLang].whySpecs}<br><br>
+        <button class="btn" onclick="reasonOne()">${text[currentLang].stream}</button>
+        <button class="btn" onclick="reasonTwo()">${text[currentLang].games}</button>
+      `;
+    }
+
+    function reasonOne() {
+      document.getElementById('response').innerHTML = `
+        ${text[currentLang].searchFail}<br>
+        <img src="/static/pc/cooler.png" alt="cooler">
+      `;
+    }
+
+    function reasonTwo() {
+      document.getElementById('response').innerHTML = `
+        ${text[currentLang].searchFail}<br>
+        <img src="/static/pc/cat.jpg" alt="cat">
+      `;
+    }
+
+    function handleJustClick() {
+      const now = Date.now();
+
+      if (!clickStartTime) {
+        clickStartTime = now;
+        prevClickTime = now;
+        clickCount = 1;
+
+        clickMonitor = setInterval(() => {
+          const timeDiff = Date.now() - prevClickTime;
+          if (timeDiff > 730 && clickCount > 10) {
+            document.getElementById("response").innerHTML = `
+              ${text[currentLang].failCount(clickCount)}
+              <br><img src="/static/pc/okak.jpg" alt="okak cat">
+            `;
+            clearInterval(clickMonitor);
+            resetClicks();
+          }
+        }, 100);
+
+        document.getElementById("response").innerHTML = text[currentLang].justClick1;
+        return;
+      }
+
+      const timeSinceLastClick = now - prevClickTime;
+      prevClickTime = now;
+      clickCount++;
+
+      if (clickCount === 2) {
+        document.getElementById("response").innerHTML = text[currentLang].justClick2;
+      }
+    }
+
+    function resetClicks() {
+      clickCount = 0;
+      clickStartTime = null;
+      prevClickTime = null;
+      clickMonitor = null;
+    }
+
+    // init
+    translateUI();
+  </script>
+
+</body>
+</html>
